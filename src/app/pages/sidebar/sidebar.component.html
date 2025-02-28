@@ -1,0 +1,87 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div nz-flex [nzVertical]="true" class="sidebar-content">
+      <div class="sidebar-logo">
+        <a href="https://ng.ant.design/" target="_blank">
+          <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+          <h1>Ant Design Of Angular</h1>
+        </a>
+      </div>
+      <ul
+        nz-menu
+        nzTheme="dark"
+        nzMode="inline"
+        [nzInlineCollapsed]="isCollapsed"
+        class="menu-list"
+      >
+        @for (item of menuItems; track item.path) {
+        <li nz-menu-item nzMatchRouter>
+          <a [routerLink]="item.path">
+            <span nz-icon [nzType]="item.icon" nzTheme="outline"></span>
+            <span>{{ item.title }}</span>
+          </a>
+        </li>
+        }
+      </ul>
+      <div>
+        <ul
+          nz-menu
+          nzTheme="dark"
+          nzMode="inline"
+          [nzInlineCollapsed]="isCollapsed"
+          class="menu-list"
+        >
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/settings">
+              <span nz-icon nzType="setting" nzTheme="outline"></span>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="user">
+              <span nz-icon nzType="user" nzTheme="outline"> </span>
+              <span>User session</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="header-trigger-container">
+        <span
+          class="header-trigger"
+          [ngClass]="
+            isCollapsed
+              ? 'header-trigger-collapsed'
+              : 'header-trigger-not-collapsed'
+          "
+          (click)="isCollapsed = !isCollapsed"
+        >
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></span>
+        </span>
+      </div>
+    </div>
+  </nz-sider>
+  <nz-layout
+    class="main-content-wrapper"
+    [ngStyle]="{
+      'margin-left': isCollapsed ? '80px' : '256px',
+      transition: 'margin-left 0.2s'
+    }"
+  >
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
