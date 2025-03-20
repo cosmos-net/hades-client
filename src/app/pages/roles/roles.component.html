@@ -1,6 +1,6 @@
 <nz-table
   nzShowSizeChanger
-  [nzData]="listOfRandomUser"
+  [nzData]="listOfRoles"
   [nzFrontPagination]="false"
   [nzLoading]="loading"
   [nzTotal]="total"
@@ -10,19 +10,21 @@
 >
   <thead>
     <tr>
-      <th nzColumnKey="name" [nzSortFn]="true">Name</th>
-      <th nzColumnKey="gender" [nzFilters]="filterGender" [nzFilterFn]="true">
-        Gender
+      <th nzColumnKey="id" [nzSortFn]="true">ID</th>
+      <th nzColumnKey="name" [nzFilters]="filterName" [nzFilterFn]="true">
+        Name
       </th>
-      <th nzColumnKey="email" [nzSortFn]="true">Email</th>
+      <th nzColumnKey="createdAt" [nzSortFn]="true">Created At</th>
+      <th nzColumnKey="updatedAt" [nzSortFn]="true">Updated At</th>
     </tr>
   </thead>
   <tbody>
-    @for (data of listOfRandomUser; track data) {
+    @for (data of listOfRoles; track data.uuid) {
     <tr>
-      <td>{{ data.name.first }} {{ data.name.last }}</td>
-      <td>{{ data.gender }}</td>
-      <td>{{ data.email }}</td>
+      <td>{{ data.uuid }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.createdAt }}</td>
+      <td>{{ data.updatedAt }}</td>
     </tr>
     }
   </tbody>
