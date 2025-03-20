@@ -13,11 +13,10 @@ interface Role {
 }
 
 @Component({
-  selector: 'app-roles',
-  standalone: true,
-  imports: [NzTableModule],
-  templateUrl: './roles.component.html',
-  styleUrl: './roles.component.css',
+    selector: 'app-roles',
+    imports: [NzTableModule],
+    templateUrl: './roles.component.html',
+    styleUrl: './roles.component.css'
 })
 export class RolesComponent implements OnInit {
   total = 1;

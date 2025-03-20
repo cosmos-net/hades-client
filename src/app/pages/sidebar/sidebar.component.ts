@@ -21,21 +21,20 @@ import {
 } from '@ant-design/icons-angular/icons';
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    RouterOutlet,
-    NzIconModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzAvatarModule,
-    NzFlexModule,
-    NzBreadCrumbModule,
-  ],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css',
+    selector: 'app-sidebar',
+    imports: [
+        CommonModule,
+        RouterLink,
+        RouterOutlet,
+        NzIconModule,
+        NzLayoutModule,
+        NzMenuModule,
+        NzAvatarModule,
+        NzFlexModule,
+        NzBreadCrumbModule,
+    ],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
   isCollapsed = false;

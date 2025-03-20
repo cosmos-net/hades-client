@@ -15,18 +15,17 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzButtonModule,
-    NzCheckboxModule,
-    NzFormModule,
-    NzInputModule,
-    NzCardModule,
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+    selector: 'app-login',
+    imports: [
+        ReactiveFormsModule,
+        NzButtonModule,
+        NzCheckboxModule,
+        NzFormModule,
+        NzInputModule,
+        NzCardModule,
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   validateForm;
