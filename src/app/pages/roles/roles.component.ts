@@ -1,18 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 
-interface RandomUser {
-  gender: string;
-  email: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
+interface Role {
+  uuid: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 @Component({
@@ -24,13 +21,13 @@ interface RandomUser {
 })
 export class RolesComponent implements OnInit {
   total = 1;
-  listOfRandomUser: RandomUser[] = [];
+  listOfRoles: Role[] = [];
   loading = true;
-  pageSize = 1;
+  pageSize = 5;
   pageIndex = 1;
-  filterGender = [
-    { text: 'male', value: 'male' },
-    { text: 'female', value: 'female' },
+  filterName = [
+    { text: 'super-admin', value: 'super-admin' },
+    { text: 'role-1', value: 'role-1' },
   ];
 
   loadDataFromServer(
@@ -44,14 +41,13 @@ export class RolesComponent implements OnInit {
     this.getUsers(pageIndex, pageSize, sortField, sortOrder, filter).subscribe(
       (data) => {
         this.loading = false;
-        this.total = 200; // mock the total data here
-        this.listOfRandomUser = data.results;
+        this.total = 5; // mock the total data here
+        this.listOfRoles = data.results;
       }
     );
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
     const { pageSize, pageIndex, sort, filter } = params;
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
@@ -71,21 +67,29 @@ export class RolesComponent implements OnInit {
     sortField: string | null,
     sortOrder: string | null,
     filters: Array<{ key: string; value: string[] }>
-  ): Observable<{ results: RandomUser[] }> {
+  ): Observable<{ results: Role[] }> {
     let params = new HttpParams()
       .append('page', `${pageIndex}`)
-      .append('results', `${pageSize}`)
-      .append('sortField', `${sortField}`)
-      .append('sortOrder', `${sortOrder}`);
+      .append('limit', `${pageSize}`)
+      .append('sortBy', `${sortField}`)
+      .append('orderType', `${sortOrder}`);
     filters.forEach((filter) => {
       filter.value.forEach((value) => {
         params = params.append(filter.key, value);
       });
     });
     return this.http
-      .get<{ results: RandomUser[] }>('http://localhost:3000/data/', {
-        params,
-      })
-      .pipe(catchError(() => of({ results: [] })));
+      .get<{ data: { items: Role[] } }>(
+        'http://localhost:4999/api/hades-context/v1/role-management/list/',
+        {
+          params,
+        }
+      )
+      .pipe(
+        map((response) => ({
+          results: response.data.items,
+        })),
+        catchError(() => of({ results: [] }))
+      );
   }
 }
